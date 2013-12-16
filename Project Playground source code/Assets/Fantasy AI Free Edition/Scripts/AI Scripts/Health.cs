@@ -21,17 +21,6 @@ public class Health : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//TAKES DAMAGE WHEN COLLIDING WITH THE MELEE OBJECT, BUT ONLY IF A MOUSE BUTTON IS BEING HIT
-		/*OnTriggerEnter(Collider other)
-		{
-			if(other.gameObject.CompareTag ("Weapon"))
-			{
-				if (mousePressed(1) || mousePressed(2))
-				{
-					CurrentHealth = CurrentHealth - Random.Range(0,5);
-				}
-			}
-		}*/
 		//Matts version of melee damage (missing parts)
 		/*onCollisionEnter(Collider "MeleeCollide"){
 			if("MeleeCollide" == type && mousePressed(1) || mousePressed(2){
@@ -39,27 +28,35 @@ public class Health : MonoBehaviour {
 			}*/
 		//IF INVINCIBLE, HE CANNOT DIE..
 		if(Invincible){
-		CurrentHealth=MaxHealth;	
+			CurrentHealth=MaxHealth;
 		}
-		else{
-		if(CurrentHealth<=0){
+		else if(CurrentHealth<=0){
 			CurrentHealth=0;
 			Dead=true;
 		}	
 		
 		//MAX HEALTH
-			if(CurrentHealth>=MaxHealth)CurrentHealth=MaxHealth;
-			
-			//WHEN DEATH IS UPON HIM
+		if (CurrentHealth >= MaxHealth) {
+			CurrentHealth = MaxHealth;
+		}
+
+		//WHEN DEATH IS UPON HIM
 		if(Dead){
-				//TELL THE AI SCRIPT HE IS DEAD
+			//TELL THE AI SCRIPT HE IS DEAD
 			FreeAI AI=(FreeAI)GetComponent("FreeAI");
 				if(AI){
-			if(AI.IsDead){}
-			else AI.IsDead=true;
+					if(AI.IsDead){}
+					else AI.IsDead=true;
+				}
+			}
 		}
+
+	//TAKES DAMAGE WHEN COLLIDING WITH THE MELEE OBJECT, BUT ONLY IF A MOUSE BUTTON IS BEING HIT
+	void OnTriggerEnter(Collider other) {
+		if(other.gameObject.CompareTag ("Weapon")) {
+			if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) {
+				CurrentHealth = CurrentHealth - Random.Range(0,5);
+			}
 		}
-		}
-	
 	}
 }

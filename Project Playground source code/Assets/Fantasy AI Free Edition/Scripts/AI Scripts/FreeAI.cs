@@ -108,44 +108,43 @@ public class FreeAI : MonoBehaviour {
 		//MOVES/RUNS TO TARGET
 		if(MoveToTarget){
 			if(stop){}
-			else{
-		transform.position += transform.forward * +runspeed * Time.deltaTime;
-			}
-			if(RunAnimation){
-				if(stop){
-						//COMBAT!
-						if(EnableCombat){
-							Health hp=(Health)Target.transform.GetComponent("Health");	
-									if(hp.CurrentHealth>0){
+		else{
+			transform.position += transform.forward * +runspeed * Time.deltaTime;
+		}
+		if(RunAnimation){
+			if(stop){
+				//COMBAT!
+				if(EnableCombat){
+					Health hp = (Health) Target.transform.GetComponent("Health");
+					if(hp != null && hp.CurrentHealth > 0){
 						Atimer+=Time.deltaTime;	
-					AICharacter.animation[AttackAnimation.name].speed = AICharacter.animation[AttackAnimation.name].length / AttackSpeed;
-					AICharacter.animation.CrossFade( AttackAnimation.name, 0.12f);	
+						AICharacter.animation[AttackAnimation.name].speed = AICharacter.animation[AttackAnimation.name].length / AttackSpeed;
+						AICharacter.animation.CrossFade( AttackAnimation.name, 0.12f);	
 						if(damdealt){}
-							else{
-						if(Atimer>=AttackSpeed*0.35&Atimer<=AttackSpeed*0.45){
-							//LETS DO SOME DAMAGE!
+						else{
+							if(Atimer>=AttackSpeed*0.35&Atimer<=AttackSpeed*0.45){
+								//LETS DO SOME DAMAGE!
 								if(hp){
-								hp.CurrentHealth=hp.CurrentHealth-Damage;
-										damdealt=true;
+									hp.CurrentHealth=hp.CurrentHealth-Damage;
+									damdealt=true;
 								}
 							}
-							}
-							
-							if(Atimer>=AttackSpeed){
-									damdealt=false;
-									Atimer=0;
-								}
-								
-							}
-							else AICharacter.animation.CrossFade( IdleAnimation.name, 0.12f);
-					
+						}
+						if(Atimer>=AttackSpeed){
+							damdealt=false;
+							Atimer=0;
+						}
+					}
+					else {
+						AICharacter.animation.CrossFade( IdleAnimation.name, 0.12f);
+					}
 				}
 					else AICharacter.animation.CrossFade( IdleAnimation.name, 0.12f);
 				}
 			else{
-						Atimer=0;
-			AICharacter.animation.CrossFade( RunAnimation.name, 0.12f);
-				}
+				Atimer=0;
+				AICharacter.animation.CrossFade( RunAnimation.name, 0.12f);
+			}
 			}
 			}
 		else{
